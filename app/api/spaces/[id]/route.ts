@@ -7,11 +7,12 @@ interface RouteParams {
   }
 }
 
-export async function GET(request: NextRequest, { params }: RouteParams) {
+export async function GET(request: NextRequest, context: { params: { id: string } }) {
+  const { id } = context.params
   try {
     const supabase = await createServerClient()
 
-    const { data: space, error } = await supabase.from("spaces").select("*").eq("id", params.id).single()
+    const { data: space, error } = await supabase.from("spaces").select("*").eq("id", id).single()
 
     if (error) {
       return NextResponse.json({ error: error.message }, { status: 404 })
