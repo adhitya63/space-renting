@@ -1,10 +1,9 @@
-import { type NextRequest, NextResponse } from "next/server"
+import { NextResponse } from "next/server"
 import { createServerClient } from "@/lib/supabase/server"
 
-// For Next.js App Router, we need to use the correct parameter types
-export async function GET(request: NextRequest, context: { params: { id: string } }) {
+// Simplify to the most basic pattern Next.js expects
+export async function GET(request: Request, { params }: { params: { id: string } }) {
   try {
-    const { id } = context.params
     const supabase = await createServerClient()
 
     // Check if user is admin
@@ -22,7 +21,7 @@ export async function GET(request: NextRequest, context: { params: { id: string 
       return NextResponse.json({ error: "Admin access required" }, { status: 403 })
     }
 
-    const { data: enquiry, error } = await supabase.from("space_enquiries").select("*").eq("id", id).single()
+    const { data: enquiry, error } = await supabase.from("space_enquiries").select("*").eq("id", params.id).single()
 
     if (error) {
       return NextResponse.json({ error: error.message }, { status: 404 })
@@ -35,9 +34,8 @@ export async function GET(request: NextRequest, context: { params: { id: string 
   }
 }
 
-export async function PUT(request: NextRequest, context: { params: { id: string } }) {
+export async function PUT(request: Request, { params }: { params: { id: string } }) {
   try {
-    const { id } = context.params
     const supabase = await createServerClient()
 
     // Check if user is admin
@@ -63,7 +61,7 @@ export async function PUT(request: NextRequest, context: { params: { id: string 
         status: updateData.status,
         // Add other fields that can be updated
       })
-      .eq("id", id)
+      .eq("id", params.id)
       .select()
       .single()
 
