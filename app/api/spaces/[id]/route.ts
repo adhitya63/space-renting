@@ -7,8 +7,8 @@ interface RouteParams {
   }
 }
 
-export async function GET(request: NextRequest, context: { params: { id: string } }) {
-  const { id } = context.params
+export async function GET(request: NextRequest, { params }: { params: Record<string, string> }) {
+  const { id } = params
   try {
     const supabase = await createServerClient()
 
