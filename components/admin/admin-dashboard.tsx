@@ -15,8 +15,21 @@ interface AdminDashboardProps {
   admin: any
 }
 
+interface SpaceEnquiry {
+  id: number
+  name: string
+  email: string
+  phone: string
+  space_name: string
+  event_type: string
+  event_date: string
+  attendees: number
+  status: string
+  created_at: string
+}
+
 export function AdminDashboard({ user, admin }: AdminDashboardProps) {
-  const [enquiries, setEnquiries] = useState([])
+  const [enquiries, setEnquiries] = useState<SpaceEnquiry[]>([])
   const [stats, setStats] = useState({
     totalEnquiries: 0,
     pendingEnquiries: 0,
@@ -38,7 +51,7 @@ export function AdminDashboard({ user, admin }: AdminDashboardProps) {
         .from("space_enquiries")
         .select("*")
         .order("created_at", { ascending: false })
-        .limit(10)
+        .limit(10) as unknown as { data: SpaceEnquiry[] | null, error: any }
 
       if (!enquiriesError && enquiriesData) {
         setEnquiries(enquiriesData)

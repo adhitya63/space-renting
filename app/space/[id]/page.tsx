@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation"
 import { SpaceDetail } from "@/components/space-detail"
+import { use } from "react"
 
 interface PageProps {
   params: {
@@ -25,8 +26,9 @@ async function getSpace(id: string) {
   }
 }
 
-export default async function SpacePage({ params }: PageProps) {
-  const space = await getSpace(params.id)
+export default async function SpacePage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const space = await getSpace(id)
 
   if (!space) {
     notFound()

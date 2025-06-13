@@ -18,11 +18,33 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Separator } from "@/components/ui/separator"
 
 interface Space {
-  id: string
+  id: number
   name: string
   location: string
+  address: string
   capacity: number
   price: string
+  images: string[]
+  description: string
+  detailedDescription: string
+  amenities: string[]
+  features: string[]
+  detailedAmenities: {
+    [category: string]: string[]
+  }
+  floorPlan: string
+  policies: {
+    cancellation: string
+    setup: string
+    catering: string
+    alcohol: string
+    smoking: string
+  }
+  contact: {
+    manager: string
+    phone: string
+    email: string
+  }
 }
 
 interface EnquiryModalProps {
