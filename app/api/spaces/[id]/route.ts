@@ -1,24 +1,18 @@
 import { createServerClient } from "@/lib/supabase/server"
 import { type NextRequest, NextResponse } from "next/server"
 
-interface RouteParams {
-  params: {
-    id: string
-  }
-}
-
-export async function GET(request: NextRequest, { params }: { params: Record<string, string> }) {
+export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
   const { id } = params
+
   try {
     const supabase = await createServerClient()
 
     const { data: space, error } = await supabase.from("spaces").select("*").eq("id", id).single()
 
-    if (error) {
-      return NextResponse.json({ error: error.message }, { status: 404 })
+    if (error || !space) {
+      return NextResponse.json({ error: error?.message || "Not found" }, { status: 404 })
     }
 
-    // Transform the data to match the expected format
     const transformedSpace = {
       id: space.id,
       name: space.name,
@@ -48,11 +42,12 @@ export async function GET(request: NextRequest, { params }: { params: Record<str
   }
 }
 
-export async function PUT(request: NextRequest, { params }: RouteParams) {
+export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
+  const { id } = params
+
   try {
     const supabase = await createServerClient()
 
-    // Check if user is admin
     const {
       data: { user },
     } = await supabase.auth.getUser()
@@ -88,7 +83,7 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
         contact_info: spaceData.contact_info,
         is_active: spaceData.is_active,
       })
-      .eq("id", params.id)
+      .eq("id", id)
       .select()
       .single()
 
@@ -103,11 +98,12 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
   }
 }
 
-export async function DELETE(request: NextRequest, { params }: RouteParams) {
+export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
+  const { id } = params
+
   try {
     const supabase = await createServerClient()
 
-    // Check if user is admin
     const {
       data: { user },
     } = await supabase.auth.getUser()
@@ -122,7 +118,7 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
       return NextResponse.json({ error: "Admin access required" }, { status: 403 })
     }
 
-    const { error } = await supabase.from("spaces").delete().eq("id", params.id)
+    const { error } = await supabase.from("spaces").delete().eq("id", id)
 
     if (error) {
       return NextResponse.json({ error: error.message }, { status: 400 })
