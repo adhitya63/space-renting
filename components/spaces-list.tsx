@@ -569,13 +569,6 @@ export function SpacesList() {
                     </div>
                   </div>}
 
-                  <div className="flex items-center gap-4 text-sm">
-                    <div className="flex items-center gap-1">
-                      <Users className="h-4 w-4" style={{ color: "#005687" }} />
-                      <span>{space.capacity} capacity</span>
-                    </div>
-                  </div>
-
                   <div className="space-y-2">
                     <h4 className="font-semibold text-sm">Date Availability:</h4>
                     {space.date_availability.length > 0 ? (
