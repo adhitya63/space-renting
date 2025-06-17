@@ -28,11 +28,18 @@ interface Space {
   address: string
   capacity: number
   price: string
+  price_per_day: number
+  image: string
   images: string[]
   description: string
   detailedDescription: string
   amenities: string[]
+  date_availability: string[]
   features: string[]
+  event_space_length: string,
+  event_space_width: string,
+  staff_capacity_min: number,
+  staff_capacity_max: number,
   detailedAmenities: {
     [category: string]: string[]
   }
@@ -253,12 +260,12 @@ export function SpaceDetail({ space }: SpaceDetailProps) {
                   <Users className="h-4 w-4" style={{ color: "#005687" }} />
                   <span className="text-sm">Capacity</span>
                   </div>
-                  <span className="font-semibold">{space.capacity} people</span>
+                  <span className="font-semibold">{space.staff_capacity_min} - {space.staff_capacity_max} people</span>
                 </div>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                   <DollarSign className="h-4 w-4" style={{ color: "#005687" }} />
-                  <span className="text-sm">Daily Rate</span>
+                  <span className="text-sm">Rate</span>
                   </div>
                   <span className="font-semibold">{space.price}</span>
                 </div>
