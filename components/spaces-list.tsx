@@ -586,37 +586,41 @@ export function SpacesList() {
                       </div>
                     ) : ("To Be Suggested")}
                   </div>
-
-                  <div className="space-y-2">
-                    <h4 className="font-semibold text-sm">Key Features:</h4>
-                    <div className="flex flex-wrap gap-1">
-                      {space.features.slice(0, 3).map((feature) => (
-                        <Badge key={feature} variant="secondary" className="text-xs">
-                          {feature}
-                        </Badge>
-                      ))}
-                      {space.features.length > 3 && (
-                        <Badge variant="secondary" className="text-xs">
-                          +{space.features.length - 3} more
-                        </Badge>
-                      )}
+                  
+                  {space.features.length > 0 && (
+                    <div className="space-y-2">
+                      <h4 className="font-semibold text-sm">Key Features:</h4>
+                      <div className="flex flex-wrap gap-1">
+                        {space.features.slice(0, 3).map((feature) => (
+                          <Badge key={feature} variant="secondary" className="text-xs">
+                            {feature}
+                          </Badge>
+                        ))}
+                        {space.features.length > 3 && (
+                          <Badge variant="secondary" className="text-xs">
+                            +{space.features.length - 3} more
+                          </Badge>
+                        )}
+                      </div>
                     </div>
-                  </div>
+                  )}
 
-                  <div className="space-y-2">
-                    <h4 className="font-semibold text-sm">Amenities:</h4>
-                    <div className="grid grid-cols-2 gap-1 text-xs text-gray-600 dark:text-gray-300">
-                      {space.amenities.slice(0, 4).map((amenity) => (
-                        <div key={amenity} className="flex items-center gap-1">
-                          {amenity.includes("WiFi") && <Wifi className="h-3 w-3" />}
-                          {amenity.includes("Parking") && <Car className="h-3 w-3" />}
-                          {amenity.includes("Coffee") && <Coffee className="h-3 w-3" />}
-                          {amenity.includes("AV") && <Mic className="h-3 w-3" />}
-                          <span>{amenity}</span>
-                        </div>
-                      ))}
+                  {space.amenities.length > 0 && (
+                    <div className="space-y-2">
+                      <h4 className="font-semibold text-sm">Amenities:</h4>
+                      <div className="grid grid-cols-2 gap-1 text-xs text-gray-600 dark:text-gray-300">
+                        {space.amenities.slice(0, 4).map((amenity) => (
+                          <div key={amenity} className="flex items-center gap-1">
+                            {amenity.includes("WiFi") && <Wifi className="h-3 w-3" />}
+                            {amenity.includes("Parking") && <Car className="h-3 w-3" />}
+                            {amenity.includes("Coffee") && <Coffee className="h-3 w-3" />}
+                            {amenity.includes("AV") && <Mic className="h-3 w-3" />}
+                            <span>{amenity}</span>
+                          </div>
+                        ))}
+                      </div>
                     </div>
-                  </div>
+                  )}
                 </CardContent>
 
                 <CardFooter className="flex gap-2">
