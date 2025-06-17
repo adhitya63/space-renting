@@ -11,13 +11,13 @@ export async function GET(request: NextRequest) {
     const from = (page - 1) * pageSize;
     const to = from + pageSize - 1;
 
-    let query = supabase.from("spaces").select("*").order("created_at", { ascending: false }).range(from, to);
+    let query = supabase.from("spaces").select("*",{ count: "exact"}).order("created_at", { ascending: false }).range(from, to);
 
     if (!includeInactive) {
       query = query.eq("is_active", true)
     }
 
-    const { data: spaces, error } = await query
+    const { data: spaces, error, count } = await query
 
     if (error) {
       return NextResponse.json({ error: error.message }, { status: 400 })
@@ -53,8 +53,13 @@ export async function GET(request: NextRequest) {
       staff_capacity_min: space.staff_capacity_min || 0,
       staff_capacity_max: space.staff_capacity_max || 0,
     }))
-    console.log("Transformed spaces:", transformedSpaces)
-    return NextResponse.json({ spaces: transformedSpaces })
+    return NextResponse.json({
+      spaces: transformedSpaces,
+      page,
+      pageSize,
+      total: count ?? 0,
+      totalPages: count ? Math.ceil(count / pageSize) : 1,
+    })
   } catch (error) {
     console.error("Error fetching spaces:", error)
     return NextResponse.json({ error: "Internal server error" }, { status: 500 })
