@@ -562,7 +562,7 @@ export function SpacesManagement() {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="price">Price per Day ($) *</Label>
+                  <Label htmlFor="price">Price Per Week ($) *</Label>
                   <Input
                     id="price"
                     type="number"
