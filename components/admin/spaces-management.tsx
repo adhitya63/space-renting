@@ -35,6 +35,7 @@ interface Space {
   address: string
   capacity: number
   price_per_day: number
+  peak_price: number
   description: string
   detailed_description: string
   amenities: string[]
@@ -70,6 +71,7 @@ export function SpacesManagement() {
     address: "",
     capacity: 0,
     price_per_day: 0,
+    peak_price: 0,
     description: "",
     detailed_description: "",
     event_space_length: "",
@@ -119,6 +121,7 @@ export function SpacesManagement() {
       address: "",
       capacity: 0,
       price_per_day: 0,
+      peak_price: 0,
       description: "",
       event_space_length: "",
       event_space_width: "",
@@ -150,6 +153,7 @@ export function SpacesManagement() {
       address: space.address,
       capacity: space.capacity,
       price_per_day: space.price_per_day,
+      peak_price: space.peak_price,
       description: space.description,
       detailed_description: space.detailed_description,
       amenities: space.amenities,
@@ -569,6 +573,17 @@ export function SpacesManagement() {
                     step="0.01"
                     value={formData.price_per_day}
                     onChange={(e) => setFormData({ ...formData, price_per_day: Number.parseFloat(e.target.value) })}
+                    placeholder="Daily rental price"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="price">Peak Price ($) *</Label>
+                  <Input
+                    id="peak_price"
+                    type="number"
+                    step="0.01"
+                    value={formData.peak_price}
+                    onChange={(e) => setFormData({ ...formData, peak_price: Number.parseFloat(e.target.value) })}
                     placeholder="Daily rental price"
                   />
                 </div>
