@@ -46,8 +46,8 @@ interface Space {
   isActive: boolean
   created_at: string
   updated_at: string
-  event_space_length: number,
-  event_space_width: number,
+  event_space_length: string,
+  event_space_width: string,
   staff_capacity_min: number,
   staff_capacity_max: number,
 }
@@ -72,8 +72,8 @@ export function SpacesManagement() {
     price_per_day: 0,
     description: "",
     detailed_description: "",
-    event_space_length: 0,
-    event_space_width: 0,
+    event_space_length: "",
+    event_space_width: "",
     staff_capacity_min: 0,
     staff_capacity_max: 0,
     amenities: [] as string[],
@@ -120,8 +120,8 @@ export function SpacesManagement() {
       capacity: 0,
       price_per_day: 0,
       description: "",
-      event_space_length: 0,
-      event_space_width: 0,
+      event_space_length: "",
+      event_space_width: "",
       staff_capacity_min: 0,
       staff_capacity_max: 0,
       detailed_description: "",
@@ -159,8 +159,8 @@ export function SpacesManagement() {
       policies: space.policies,
       contact_info: space.contact_info,
       isActive: space.isActive,
-      event_space_length: space.event_space_length || 0,
-      event_space_width: space.event_space_width || 0,
+      event_space_length: space.event_space_length,
+      event_space_width: space.event_space_width,
       staff_capacity_min: space.staff_capacity_min || 0,
       staff_capacity_max: space.staff_capacity_max || 0,
       date_availability: []
@@ -495,20 +495,34 @@ export function SpacesManagement() {
                   <Label htmlFor="capacity">Space Length</Label>
                   <Input
                     id="capacity"
-                    type="number"
+                    type="text"
                     value={formData.event_space_length}
-                    onChange={(e) => setFormData({ ...formData, event_space_length: Number.parseInt(e.target.value) })}
-                    placeholder="Maximum attendees"
+                    onChange={(e) => {
+                      // Replace comma with dot
+                      const value = e.target.value.replace(',', '.');
+                      // Allow only numbers and one dot
+                      if (/^[0-9]*\.?[0-9]*$/.test(value) || value === "") {
+                        setFormData({ ...formData, event_space_length: value });
+                      }
+                    }}
+                    placeholder="Space Width"
                   />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="capacity">Space Width</Label>
                   <Input
                     id="capacity"
-                    type="number"
+                    type="text"
                     value={formData.event_space_width}
-                    onChange={(e) => setFormData({ ...formData, event_space_width: Number.parseInt(e.target.value) })}
-                    placeholder="Maximum attendees"
+                    onChange={(e) => {
+                      // Replace comma with dot
+                      const value = e.target.value.replace(',', '.');
+                      // Allow only numbers and one dot
+                      if (/^[0-9]*\.?[0-9]*$/.test(value) || value === "") {
+                        setFormData({ ...formData, event_space_width: value });
+                      }
+                    }}
+                    placeholder="Space Length"
                   />
                 </div>
               </div>

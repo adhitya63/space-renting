@@ -28,8 +28,8 @@ interface Space {
   amenities: string[]
   date_availability: string[]
   features: string[]
-  event_space_length: number,
-  event_space_width: number,
+  event_space_length: string,
+  event_space_width: string,
   staff_capacity_min: number,
   staff_capacity_max: number,
   detailedAmenities: {
