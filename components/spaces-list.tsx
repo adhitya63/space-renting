@@ -259,7 +259,7 @@ export function SpacesList() {
   }
 
   return (
-    <section id="spaces" className="py-16 bg-gray-50 dark:bg-gray-900">
+    <section id="spaces" className="py-16 md:px-10 bg-gray-50 dark:bg-gray-900">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Available Spaces</h2>
