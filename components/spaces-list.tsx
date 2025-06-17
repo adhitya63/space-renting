@@ -26,6 +26,7 @@ interface Space {
   description: string
   detailedDescription: string
   amenities: string[]
+  date_availability: string[]
   features: string[]
   event_space_length: number,
   event_space_width: number,
@@ -542,7 +543,12 @@ export function SpacesList() {
                         <span>size event space : {space.event_space_length} X {space.event_space_width} cm</span>
                       </div>
                     </div>
-                  ): ""}
+                  ): <div className="flex items-center gap-4 text-sm">
+                      <div className="flex items-center gap-1">
+                        <Expand className="h-4 w-4" style={{ color: "#005687" }} />
+                        <span>size event space : TBC</span>
+                      </div>
+                    </div>}
 
                   {space.staff_capacity_min && space.staff_capacity_max ? (
                     <div className="flex items-center gap-4 text-sm">
@@ -551,12 +557,36 @@ export function SpacesList() {
                         <span>Number Of Pax: {space.staff_capacity_min} - {space.staff_capacity_max}</span>
                       </div>
                     </div>
-                  ): ""}
+                  ): <div className="flex items-center gap-4 text-sm">
+                      <div className="flex items-center gap-1">
+                        <Users className="h-4 w-4" style={{ color: "#005687" }} />
+                        <span>Number Of Pax: TBC</span>
+                      </div>
+                    </div>}
+
                   <div className="flex items-center gap-4 text-sm">
                     <div className="flex items-center gap-1">
                       <Users className="h-4 w-4" style={{ color: "#005687" }} />
                       <span>{space.capacity} capacity</span>
                     </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <h4 className="font-semibold text-sm">Date Availability:</h4>
+                    {space.date_availability.length > 0 ? (
+                      <div className="flex flex-wrap gap-1">
+                        {space.date_availability.slice(0, 3).map((date) => (
+                          <Badge key={date} variant="secondary" className="text-xs">
+                            {date}
+                          </Badge>
+                        ))}
+                        {space.date_availability.length > 3 && (
+                          <Badge variant="secondary" className="text-xs">
+                            +{space.date_availability.length - 3} more
+                          </Badge>
+                        )}
+                      </div>
+                    ) : ("To Be Suggested")}
                   </div>
 
                   <div className="space-y-2">
