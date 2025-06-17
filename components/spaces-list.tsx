@@ -540,13 +540,13 @@ export function SpacesList() {
                     <div className="flex items-center gap-4 text-sm">
                       <div className="flex items-center gap-1">
                         <Expand className="h-4 w-4" style={{ color: "#005687" }} />
-                        <span>size event space : {space.event_space_length} X {space.event_space_width} cm</span>
+                        <span>Event Space Size : {space.event_space_length} X {space.event_space_width} meters</span>
                       </div>
                     </div>
                   ): <div className="flex items-center gap-4 text-sm">
                       <div className="flex items-center gap-1">
                         <Expand className="h-4 w-4" style={{ color: "#005687" }} />
-                        <span>size event space : TBC</span>
+                        <span>Event Space Size : TBC</span>
                       </div>
                     </div>}
 

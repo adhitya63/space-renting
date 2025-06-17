@@ -48,6 +48,7 @@ export async function sendEnquiryEmails({ enquiry, space }: EnquiryEmailData) {
       react: AdminEnquiryNotification({ enquiry, space }),
     })
 
+
     results.adminEmail = adminEmail
 
     // Send client confirmation email
@@ -58,6 +59,9 @@ export async function sendEnquiryEmails({ enquiry, space }: EnquiryEmailData) {
       react: ClientEnquiryConfirmation({ enquiry, space }),
     })
 
+    console.log("Admin email response:", adminEmail);
+    console.log("Client email response:", clientEmail);
+    
     results.clientEmail = clientEmail
 
     console.log("📧 Emails sent successfully:", {
