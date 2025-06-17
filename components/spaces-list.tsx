@@ -69,7 +69,9 @@ export function SpacesList() {
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState("")
   const [showFilters, setShowFilters] = useState(false)
-
+  const [page, setPage] = useState(1)
+  const [pageSize, setPageSize] = useState(9) // 9 per page for 3-column grid
+  const [total, setTotal] = useState(0)
   const [filters, setFilters] = useState<FilterState>({
     search: "",
     minCapacity: "",
@@ -81,12 +83,14 @@ export function SpacesList() {
   })
 
   useEffect(() => {
-    fetchSpaces()
-  }, [])
+    fetchSpaces(page, pageSize)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page, pageSize])
 
-  const fetchSpaces = async () => {
+  const fetchSpaces = async (pageNum = page, size = pageSize) => {
+    setIsLoading(true)
     try {
-      const response = await fetch("/api/spaces")
+      const response = await fetch(`/api/spaces?page=${pageNum}&pageSize=${size}`)
       const data = await response.json()
 
       if (!response.ok) {
@@ -94,6 +98,7 @@ export function SpacesList() {
       }
 
       setSpaces(data.spaces)
+      setTotal(data.total || 0) // Make sure your API returns total count
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to load spaces")
     } finally {
@@ -249,7 +254,7 @@ export function SpacesList() {
         <div className="container mx-auto px-4">
           <div className="text-center py-12">
             <p className="text-red-600 dark:text-red-400 mb-4">{error}</p>
-            <Button onClick={fetchSpaces} variant="outline">
+            <Button onClick={() => fetchSpaces()} variant="outline">
               Try Again
             </Button>
           </div>
@@ -543,12 +548,12 @@ export function SpacesList() {
                         <span>Event Space Size : {space.event_space_length} X {space.event_space_width} meters</span>
                       </div>
                     </div>
-                  ): <div className="flex items-center gap-4 text-sm">
-                      <div className="flex items-center gap-1">
-                        <Expand className="h-4 w-4" style={{ color: "#005687" }} />
-                        <span>Event Space Size : TBC</span>
-                      </div>
-                    </div>}
+                  ) : <div className="flex items-center gap-4 text-sm">
+                    <div className="flex items-center gap-1">
+                      <Expand className="h-4 w-4" style={{ color: "#005687" }} />
+                      <span>Event Space Size : TBC</span>
+                    </div>
+                  </div>}
 
                   {space.staff_capacity_min && space.staff_capacity_max ? (
                     <div className="flex items-center gap-4 text-sm">
@@ -557,12 +562,12 @@ export function SpacesList() {
                         <span>Number Of Pax: {space.staff_capacity_min} - {space.staff_capacity_max}</span>
                       </div>
                     </div>
-                  ): <div className="flex items-center gap-4 text-sm">
-                      <div className="flex items-center gap-1">
-                        <Users className="h-4 w-4" style={{ color: "#005687" }} />
-                        <span>Number Of Pax: TBC</span>
-                      </div>
-                    </div>}
+                  ) : <div className="flex items-center gap-4 text-sm">
+                    <div className="flex items-center gap-1">
+                      <Users className="h-4 w-4" style={{ color: "#005687" }} />
+                      <span>Number Of Pax: TBC</span>
+                    </div>
+                  </div>}
 
                   <div className="flex items-center gap-4 text-sm">
                     <div className="flex items-center gap-1">
@@ -641,6 +646,38 @@ export function SpacesList() {
             ))}
           </div>
         )}
+
+        <div className="my-8">
+          <Select value={String(pageSize)} onValueChange={val => { setPageSize(Number(val)); setPage(1); }}>
+            <SelectTrigger className="w-30">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="6">6 / page</SelectItem>
+              <SelectItem value="9">9 / page</SelectItem>
+              <SelectItem value="12">12 / page</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+        <div className="flex justify-center items-center gap-4 mt-8">
+          <Button
+            variant="outline"
+            disabled={page === 1}
+            onClick={() => setPage(page - 1)}
+          >
+            Previous
+          </Button>
+          <span>
+            Page {page} of {Math.ceil(total / pageSize) || 1}
+          </span>
+          <Button
+            variant="outline"
+            disabled={page * pageSize >= total}
+            onClick={() => setPage(page + 1)}
+          >
+            Next
+          </Button>
+        </div>
       </div>
 
       <EnquiryModal space={selectedSpace} isOpen={isEnquiryOpen} onClose={() => setIsEnquiryOpen(false)} />

@@ -6,8 +6,12 @@ export async function GET(request: NextRequest) {
     const supabase = await createServerClient()
     const { searchParams } = new URL(request.url)
     const includeInactive = searchParams.get("include_inactive") === "true"
+    const page = Number(searchParams.get("page") || 1);
+    const pageSize = Number(searchParams.get("pageSize") || 20);
+    const from = (page - 1) * pageSize;
+    const to = from + pageSize - 1;
 
-    let query = supabase.from("spaces").select("*").order("created_at", { ascending: false })
+    let query = supabase.from("spaces").select("*").order("created_at", { ascending: false }).range(from, to);
 
     if (!includeInactive) {
       query = query.eq("is_active", true)
