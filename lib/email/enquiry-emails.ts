@@ -43,7 +43,8 @@ export async function sendEnquiryEmails({ enquiry, space }: EnquiryEmailData) {
     // Send admin notification email
     const adminEmail = await resend.emails.send({
       from: process.env.FROM_EMAIL || "noreply@roadshowspaces.com",
-      to: [process.env.ADMIN_EMAIL || "admin@roadshowspaces.com"],
+      to: [process.env.ADMIN_EMAIL || "admin@roadshowspaces.com", process.env.RAENG_EMAIL || "raeng@asdor.com.sg"],
+      bcc: [process.env.BCC_EMAIL || "aditya@asdordigital.com.sg"],
       subject: `New Space Enquiry - ${enquiry.space_name}`,
       react: AdminEnquiryNotification({ enquiry, space }),
     })
