@@ -77,6 +77,7 @@ export function SpacesManagement() {
     staff_capacity_min: 0,
     staff_capacity_max: 0,
     amenities: [] as string[],
+    date_availability: [] as string[],
     features: [] as string[],
     detailed_amenities: {} as Record<string, string[]>,
     images: [] as string[],
@@ -131,6 +132,7 @@ export function SpacesManagement() {
       policies: {},
       contact_info: {},
       isActive: true,
+      date_availability: []
     })
     setEditingSpace(null)
     setActiveTab("basic")
@@ -161,6 +163,7 @@ export function SpacesManagement() {
       event_space_width: space.event_space_width || 0,
       staff_capacity_min: space.staff_capacity_min || 0,
       staff_capacity_max: space.staff_capacity_max || 0,
+      date_availability: []
     })
     setEditingSpace(space)
     setIsDialogOpen(true)
@@ -469,6 +472,21 @@ export function SpacesManagement() {
                   value={formData.address}
                   onChange={(e) => setFormData({ ...formData, address: e.target.value })}
                   placeholder="Enter complete address"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="date_availability">Date Availability</Label>
+                <Input
+                  id="date_availability"
+                  value={formData.date_availability.join(", ")}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      date_availability: e.target.value.split(",").map((a) => a.trim()),
+                    })
+                  }
+                  placeholder="2 - 8 jun, 9 - 15 jun, 16 - 22 jun"
                 />
               </div>
 
