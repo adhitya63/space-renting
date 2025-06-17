@@ -41,6 +41,8 @@ export async function POST(request: NextRequest) {
 
     if (insertError) {
       console.error("Database insert error:", insertError)
+      console.log("foo")
+      console.log("Enquiry data:", insertError)
       return NextResponse.json({ error: "Failed to save enquiry" }, { status: 500 })
     }
 
