@@ -25,7 +25,7 @@ export async function GET(request: NextRequest, context: any) {
       location: space.location,
       address: space.address,
       capacity: space.capacity,
-      price: `$${space.price_per_day * 7}/week`,
+      price: `$${space.price_per_day}/week`,
       price_per_day: space.price_per_day,
       images: space.images || [],
       description: space.description,

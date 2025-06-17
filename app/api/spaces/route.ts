@@ -26,7 +26,7 @@ export async function GET(request: NextRequest) {
       location: space.location,
       address: space.address,
       capacity: space.capacity,
-      price: `$${space.price_per_day * 7}/week`,
+      price: `$${space.price_per_day}/week`,
       price_per_day: space.price_per_day,
       image: space.images?.[0] || "/placeholder.svg?height=300&width=400",
       images: space.images || [],
