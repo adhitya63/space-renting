@@ -43,9 +43,13 @@ interface Space {
   images: string[]
   policies: Record<string, string>
   contact_info: Record<string, string>
-  is_active: boolean
+  isActive: boolean
   created_at: string
   updated_at: string
+  event_space_length: number,
+  event_space_width: number,
+  staff_capacity_min: number,
+  staff_capacity_max: number,
 }
 
 export function SpacesManagement() {
@@ -68,24 +72,33 @@ export function SpacesManagement() {
     price_per_day: 0,
     description: "",
     detailed_description: "",
+    event_space_length: 0,
+    event_space_width: 0,
+    staff_capacity_min: 0,
+    staff_capacity_max: 0,
     amenities: [] as string[],
     features: [] as string[],
     detailed_amenities: {} as Record<string, string[]>,
     images: [] as string[],
     policies: {} as Record<string, string>,
     contact_info: {} as Record<string, string>,
-    is_active: true,
+    isActive: true,
   })
 
   useEffect(() => {
     fetchSpaces()
+    console.log("SpacesManagement component mounted")
   }, [])
+
+  useEffect(() => {
+    console.log("Spaces updated:", spaces)
+  }, [spaces])
 
   const fetchSpaces = async () => {
     try {
       const response = await fetch("/api/spaces?include_inactive=true")
       const data = await response.json()
-
+      console.log("Fetched spaces:", data)
       if (!response.ok) {
         throw new Error(data.error || "Failed to fetch spaces")
       }
@@ -106,6 +119,10 @@ export function SpacesManagement() {
       capacity: 0,
       price_per_day: 0,
       description: "",
+      event_space_length: 0,
+      event_space_width: 0,
+      staff_capacity_min: 0,
+      staff_capacity_max: 0,
       detailed_description: "",
       amenities: [],
       features: [],
@@ -113,7 +130,7 @@ export function SpacesManagement() {
       images: [],
       policies: {},
       contact_info: {},
-      is_active: true,
+      isActive: true,
     })
     setEditingSpace(null)
     setActiveTab("basic")
@@ -139,7 +156,11 @@ export function SpacesManagement() {
       images: space.images,
       policies: space.policies,
       contact_info: space.contact_info,
-      is_active: space.is_active,
+      isActive: space.isActive,
+      event_space_length: space.event_space_length || 0,
+      event_space_width: space.event_space_width || 0,
+      staff_capacity_min: space.staff_capacity_min || 0,
+      staff_capacity_max: space.staff_capacity_max || 0,
     })
     setEditingSpace(space)
     setIsDialogOpen(true)
@@ -153,7 +174,7 @@ export function SpacesManagement() {
     try {
       const url = editingSpace ? `/api/spaces/${editingSpace.id}` : "/api/spaces"
       const method = editingSpace ? "PUT" : "POST"
-
+      console.log("Saving space with data:", formData)
       const response = await fetch(url, {
         method,
         headers: {
@@ -210,7 +231,7 @@ export function SpacesManagement() {
         },
         body: JSON.stringify({
           ...space,
-          is_active: !space.is_active,
+          isActive: !space.isActive,
         }),
       })
 
@@ -290,7 +311,7 @@ export function SpacesManagement() {
   if (isLoading) {
     return (
       <div className="flex justify-center items-center py-12">
-        <Loader2 className="h-8 w-8 animate-spin text-purple-600" />
+        <Loader2 className="h-8 w-8 animate-spin text-[#00405a]" />
         <span className="ml-2">Loading spaces...</span>
       </div>
     )
@@ -304,7 +325,7 @@ export function SpacesManagement() {
           <h2 className="text-2xl font-bold">Spaces Management</h2>
           <p className="text-gray-600 dark:text-gray-300">Manage your venue spaces and their details</p>
         </div>
-        <Button onClick={openAddDialog} className="bg-purple-600 hover:bg-purple-700">
+        <Button onClick={openAddDialog} className="bg-[#005687] hover:bg-[#00405a]">
           <Plus className="h-4 w-4 mr-2" />
           Add New Space
         </Button>
@@ -326,7 +347,7 @@ export function SpacesManagement() {
       {/* Spaces Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {spaces.map((space) => (
-          <Card key={space.id} className={`${!space.is_active ? "opacity-60" : ""}`}>
+          <Card key={space.id} className={`${space.isActive == false ? "opacity-60" : ""}`}>
             <CardHeader>
               <div className="flex items-start justify-between">
                 <div>
@@ -337,8 +358,8 @@ export function SpacesManagement() {
                   </CardDescription>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Badge variant={space.is_active ? "default" : "secondary"}>
-                    {space.is_active ? "Active" : "Inactive"}
+                  <Badge variant={space.isActive ? "default" : "secondary"}>
+                    {space.isActive == true ? "Active" : "Inactive"}
                   </Badge>
                 </div>
               </div>
@@ -347,12 +368,12 @@ export function SpacesManagement() {
             <CardContent className="space-y-4">
               <div className="grid grid-cols-2 gap-4 text-sm">
                 <div className="flex items-center gap-2">
-                  <Users className="h-4 w-4 text-purple-600" />
+                  <Users className="h-4 w-4 text-[#00405a]" />
                   <span>{space.capacity} capacity</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <DollarSign className="h-4 w-4 text-purple-600" />
-                  <span>${space.price_per_day}/day</span>
+                  <DollarSign className="h-4 w-4 text-[#00405a]" />
+                  <span>${space.price_per_day}</span>
                 </div>
               </div>
 
@@ -365,8 +386,8 @@ export function SpacesManagement() {
                   onClick={() => toggleSpaceStatus(space)}
                   className="flex items-center gap-2"
                 >
-                  {space.is_active ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                  {space.is_active ? "Deactivate" : "Activate"}
+                  {space.isActive ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                  {space.isActive ? "Deactivate" : "Activate"}
                 </Button>
 
                 <div className="flex gap-2">
@@ -392,7 +413,7 @@ export function SpacesManagement() {
             <Building className="h-12 w-12 text-gray-400 mx-auto mb-4" />
             <h3 className="text-lg font-semibold mb-2">No Spaces Found</h3>
             <p className="text-gray-600 dark:text-gray-300 mb-4">Get started by adding your first venue space</p>
-            <Button onClick={openAddDialog} className="bg-purple-600 hover:bg-purple-700">
+            <Button onClick={openAddDialog} className="bg-[#005687] hover:bg-[#00405a]">
               <Plus className="h-4 w-4 mr-2" />
               Add New Space
             </Button>
@@ -402,7 +423,7 @@ export function SpacesManagement() {
 
       {/* Add/Edit Dialog */}
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="sm:max-w-4xl h-[90vh] sm:h-auto overflow-y-auto">
           <DialogHeader>
             <DialogTitle>{editingSpace ? "Edit Space" : "Add New Space"}</DialogTitle>
             <DialogDescription>
@@ -453,7 +474,53 @@ export function SpacesManagement() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="capacity">Capacity *</Label>
+                  <Label htmlFor="capacity">Space Length</Label>
+                  <Input
+                    id="capacity"
+                    type="number"
+                    value={formData.event_space_length}
+                    onChange={(e) => setFormData({ ...formData, event_space_length: Number.parseInt(e.target.value) })}
+                    placeholder="Maximum attendees"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="capacity">Space Width</Label>
+                  <Input
+                    id="capacity"
+                    type="number"
+                    value={formData.event_space_width}
+                    onChange={(e) => setFormData({ ...formData, event_space_width: Number.parseInt(e.target.value) })}
+                    placeholder="Maximum attendees"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="capacity">Staff Capacity Min</Label>
+                  <Input
+                    id="capacity"
+                    type="number"
+                    value={formData.staff_capacity_min}
+                    onChange={(e) => setFormData({ ...formData, staff_capacity_min: Number.parseInt(e.target.value) })}
+                    placeholder="Maximum attendees"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="capacity">Staff Capacity Max</Label>
+                  <Input
+                    id="capacity"
+                    type="number"
+                    value={formData.staff_capacity_max}
+                    onChange={(e) => setFormData({ ...formData, staff_capacity_max: Number.parseInt(e.target.value) })}
+                    placeholder="Maximum attendees"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="capacity">Visitor Capacity *</Label>
                   <Input
                     id="capacity"
                     type="number"
@@ -478,8 +545,8 @@ export function SpacesManagement() {
               <div className="flex items-center space-x-2">
                 <Switch
                   id="active"
-                  checked={formData.is_active}
-                  onCheckedChange={(checked) => setFormData({ ...formData, is_active: checked })}
+                  checked={formData.isActive}
+                  onCheckedChange={(checked) => setFormData({ ...formData, isActive: checked })}
                 />
                 <Label htmlFor="active">Space is active and available for booking</Label>
               </div>
@@ -552,7 +619,7 @@ export function SpacesManagement() {
                         >
                           <X className="h-4 w-4" />
                         </Button>
-                        {index === 0 && <Badge className="absolute bottom-2 left-2 bg-purple-600">Primary Image</Badge>}
+                        {index === 0 && <Badge className="absolute bottom-2 left-2 bg-[#005687]">Primary Image</Badge>}
                       </Card>
                     ))}
                   </div>
@@ -621,7 +688,7 @@ export function SpacesManagement() {
               </div>
 
               <div className="space-y-4">
-                <Label>Policies</Label>
+                <Label>Policiess</Label>
                 <Textarea
                   placeholder='{"cancellation": "48 hours notice required", "setup": "2 hours before event", "catering": "External catering allowed"}'
                   value={JSON.stringify(formData.policies, null, 2)}
@@ -675,7 +742,7 @@ export function SpacesManagement() {
                 <X className="h-4 w-4 mr-2" />
                 Cancel
               </Button>
-              <Button onClick={handleSave} disabled={isSaving} className="bg-purple-600 hover:bg-purple-700">
+              <Button onClick={handleSave} disabled={isSaving} className="bg-[#005687] hover:bg-[#00405a]">
                 {isSaving ? (
                   <>
                     <Loader2 className="h-4 w-4 mr-2 animate-spin" />
@@ -729,7 +796,7 @@ export function SpacesManagement() {
                       >
                         <X className="h-4 w-4" />
                       </Button>
-                      {index === 0 && <Badge className="absolute bottom-2 left-2 bg-purple-600">Primary Image</Badge>}
+                      {index === 0 && <Badge className="absolute bottom-2 left-2 bg-[#005687]">Primary Image</Badge>}
                     </Card>
                   ))}
                 </div>
@@ -748,7 +815,7 @@ export function SpacesManagement() {
               <Button
                 onClick={handleImageManagerSave}
                 disabled={isSaving}
-                className="bg-purple-600 hover:bg-purple-700"
+                className="bg-[#005687] hover:bg-[#00405a]"
               >
                 {isSaving ? (
                   <>

@@ -27,7 +27,7 @@ export function Hero() {
             <Button
               size="lg"
               onClick={scrollToSpaces}
-              className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-3"
+              className="bg-[#005687] hover:bg-[#00405a] text-white px-8 py-3"
             >
               Browse Spaces
             </Button>

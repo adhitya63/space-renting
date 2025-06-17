@@ -26,7 +26,7 @@ export async function GET(request: NextRequest) {
       location: space.location,
       address: space.address,
       capacity: space.capacity,
-      price: `$${space.price_per_day}/day`,
+      price: `$${space.price_per_day * 7}/week`,
       price_per_day: space.price_per_day,
       image: space.images?.[0] || "/placeholder.svg?height=300&width=400",
       images: space.images || [],
@@ -41,8 +41,12 @@ export async function GET(request: NextRequest) {
       isActive: space.is_active,
       createdAt: space.created_at,
       updatedAt: space.updated_at,
+      event_space_length: space.event_space_length || 0,
+      event_space_width: space.event_space_width || 0,
+      staff_capacity_min: space.staff_capacity_min || 0,
+      staff_capacity_max: space.staff_capacity_max || 0,
     }))
-
+    console.log("Transformed spaces:", transformedSpaces)
     return NextResponse.json({ spaces: transformedSpaces })
   } catch (error) {
     console.error("Error fetching spaces:", error)
@@ -90,6 +94,10 @@ export async function POST(request: NextRequest) {
           policies: spaceData.policies,
           contact_info: spaceData.contact_info,
           is_active: spaceData.is_active ?? true,
+          event_space_length: spaceData.event_space_length,
+          event_space_width: spaceData.event_space_width,
+          staff_capacity_min: spaceData.staff_capacity_min,
+          staff_capacity_max: spaceData.staff_capacity_max,
         },
       ])
       .select()

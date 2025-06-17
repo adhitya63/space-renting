@@ -9,7 +9,7 @@ import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Separator } from "@/components/ui/separator"
-import { MapPin, Users, Wifi, Car, Coffee, Mic, Loader2, Search, Filter, X, SlidersHorizontal } from "lucide-react"
+import { MapPin, Users, Wifi, Car, Coffee, Mic, Loader2, Search, Filter, X, SlidersHorizontal, Expand } from "lucide-react"
 import { EnquiryModal } from "@/components/enquiry-modal"
 import { Collapsible, CollapsibleContent } from "@/components/ui/collapsible"
 
@@ -27,6 +27,10 @@ interface Space {
   detailedDescription: string
   amenities: string[]
   features: string[]
+  event_space_length: number,
+  event_space_width: number,
+  staff_capacity_min: number,
+  staff_capacity_max: number,
   detailedAmenities: {
     [category: string]: string[]
   }
@@ -230,7 +234,7 @@ export function SpacesList() {
             </p>
           </div>
           <div className="flex justify-center items-center py-12">
-            <Loader2 className="h-8 w-8 animate-spin text-purple-600" />
+            <Loader2 className="h-8 w-8 animate-spin text-[#00405a]" />
             <span className="ml-2 text-gray-600 dark:text-gray-300">Loading spaces...</span>
           </div>
         </div>
@@ -516,7 +520,8 @@ export function SpacesList() {
               <Card key={space.id} className="overflow-hidden hover:shadow-lg transition-shadow">
                 <div className="relative">
                   <img src={space.image || "/placeholder.svg"} alt={space.name} className="w-full h-48 object-cover" />
-                  <Badge className="absolute top-3 right-3 bg-purple-600">{space.price}</Badge>
+                  <Badge className="absolute top-3 right-3" style={{ backgroundColor: "#005687" }}>
+                    {space.price}</Badge>
                 </div>
 
                 <CardHeader>
@@ -530,9 +535,26 @@ export function SpacesList() {
                 <CardContent className="space-y-4">
                   <p className="text-sm text-gray-600 dark:text-gray-300">{space.description}</p>
 
+                  {space.event_space_length && space.event_space_width ? (
+                    <div className="flex items-center gap-4 text-sm">
+                      <div className="flex items-center gap-1">
+                        <Expand className="h-4 w-4" style={{ color: "#005687" }} />
+                        <span>size event space : {space.event_space_length} X {space.event_space_width} cm</span>
+                      </div>
+                    </div>
+                  ): ""}
+
+                  {space.staff_capacity_min && space.staff_capacity_max ? (
+                    <div className="flex items-center gap-4 text-sm">
+                      <div className="flex items-center gap-1">
+                        <Users className="h-4 w-4" style={{ color: "#005687" }} />
+                        <span>Number Of Pax: {space.staff_capacity_min} - {space.staff_capacity_max}</span>
+                      </div>
+                    </div>
+                  ): ""}
                   <div className="flex items-center gap-4 text-sm">
                     <div className="flex items-center gap-1">
-                      <Users className="h-4 w-4 text-purple-600" />
+                      <Users className="h-4 w-4" style={{ color: "#005687" }} />
                       <span>{space.capacity} capacity</span>
                     </div>
                   </div>
@@ -577,7 +599,11 @@ export function SpacesList() {
                   >
                     View Details
                   </Button>
-                  <Button className="flex-1 bg-purple-600 hover:bg-purple-700" onClick={() => handleEnquiry(space)}>
+                  <Button
+                    className="flex-1"
+                    style={{ backgroundColor: "#005687", color: "#fff" }}
+                    onClick={() => handleEnquiry(space)}
+                  >
                     Quick Enquiry
                   </Button>
                 </CardFooter>

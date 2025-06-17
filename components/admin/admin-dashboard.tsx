@@ -128,9 +128,9 @@ export function AdminDashboard({ user, admin }: AdminDashboardProps) {
               <p className="text-gray-600 dark:text-gray-300">Welcome back, {admin.name || user.email}</p>
             </div>
             <div className="flex items-center gap-4">
-              <Badge variant="secondary" className="bg-purple-100 text-purple-800">
+                <Badge variant="secondary" className="bg-[#005687] text-white">
                 {admin.role || "Admin"}
-              </Badge>
+                </Badge>
               <Button variant="outline" onClick={handleLogout}>
                 <LogOut className="h-4 w-4 mr-2" />
                 Logout
@@ -246,7 +246,7 @@ export function AdminDashboard({ user, admin }: AdminDashboardProps) {
                             View Details
                           </Button>
                           {enquiry.status === "pending" && (
-                            <Button size="sm" className="bg-purple-600 hover:bg-purple-700">
+                            <Button size="sm" className="bg-[#005687] hover:bg-[#00405a]">
                               Respond
                             </Button>
                           )}

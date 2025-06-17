@@ -87,8 +87,8 @@ export function SpaceDetail({ space }: SpaceDetailProps) {
               </p>
             </div>
             <div className="text-right">
-              <div className="text-2xl font-bold text-purple-600">{space.price}</div>
-              <div className="text-sm text-gray-600 dark:text-gray-300">per day</div>
+              <div className="text-2xl font-bold" style={{ color: "#005687" }}>{space.price}</div>
+              <div className="text-sm text-gray-600 dark:text-gray-300">per week</div>
             </div>
           </div>
         </div>
@@ -144,94 +144,99 @@ export function SpaceDetail({ space }: SpaceDetailProps) {
 
             {/* Detailed Information Tabs */}
             <Card>
-              <CardContent className="p-0">
+                <CardContent className="p-0">
                 <Tabs defaultValue="amenities" className="w-full">
                   <TabsList className="grid w-full grid-cols-4">
-                    <TabsTrigger value="amenities">Amenities</TabsTrigger>
-                    <TabsTrigger value="policies">Policies</TabsTrigger>
-                    <TabsTrigger value="floorplan">Floor Plan</TabsTrigger>
-                    <TabsTrigger value="contact">Contact</TabsTrigger>
+                  <TabsTrigger value="amenities">Amenities</TabsTrigger>
+                  <TabsTrigger value="policies">Policies</TabsTrigger>
+                  <TabsTrigger value="floorplan">Floor Plan</TabsTrigger>
+                  <TabsTrigger value="contact">Contact</TabsTrigger>
                   </TabsList>
 
                   <TabsContent value="amenities" className="p-6">
-                    <div className="space-y-6">
-                      {Object.entries(space.detailedAmenities).map(([category, items]) => (
-                        <div key={category}>
-                          <h4 className="font-semibold mb-3 text-purple-600">{category}</h4>
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                            {items.map((item) => (
-                              <div key={item} className="flex items-center gap-2">
-                                <CheckCircle className="h-4 w-4 text-green-500 flex-shrink-0" />
-                                <span className="text-sm">{item}</span>
-                              </div>
-                            ))}
-                          </div>
+                  <div className="space-y-6">
+                    {Object.entries(space.detailedAmenities).map(([category, items]) => (
+                    <div key={category}>
+                      <h4 className="font-semibold mb-3" style={{ color: "#005687" }}>{category}</h4>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                      {items.map((item) => (
+                        <div key={item} className="flex items-center gap-2">
+                        <CheckCircle className="h-4 w-4 text-green-500 flex-shrink-0" />
+                        <span className="text-sm">{item}</span>
                         </div>
                       ))}
+                      </div>
                     </div>
+                    ))}
+                  </div>
                   </TabsContent>
 
                   <TabsContent value="policies" className="p-6">
-                    <div className="space-y-4">
-                      {Object.entries(space.policies).map(([key, value]) => (
-                        <div key={key}>
-                          <h4 className="font-semibold capitalize mb-2 text-purple-600">
-                            {key.replace(/([A-Z])/g, " $1").trim()}
-                          </h4>
-                          <p className="text-sm text-gray-600 dark:text-gray-300">{value}</p>
-                        </div>
-                      ))}
+                  <div className="space-y-4">
+                    {Object.entries(space.policies).map(([key, value]) => (
+                    <div key={key}>
+                      <h4
+                      className="font-semibold capitalize mb-2"
+                      style={{ color: "#005687" }}
+                      >
+                      {key.replace(/([A-Z])/g, " $1").trim()}
+                      </h4>
+                      <p className="text-sm text-gray-600 dark:text-gray-300">{value}</p>
                     </div>
+                    ))}
+                  </div>
                   </TabsContent>
 
                   <TabsContent value="floorplan" className="p-6">
-                    <div className="text-center">
-                      <img
-                        src={space.floorPlan || "/placeholder.svg"}
-                        alt={`${space.name} floor plan`}
-                        className="max-w-full h-auto mx-auto rounded-lg border"
-                      />
-                      <p className="text-sm text-gray-600 dark:text-gray-300 mt-4">
-                        Floor plan showing layout and capacity for {space.capacity} attendees
-                      </p>
-                    </div>
+                  <div className="text-center">
+                    <img
+                    src={space.floorPlan || "/placeholder.svg"}
+                    alt={`${space.name} floor plan`}
+                    className="max-w-full h-auto mx-auto rounded-lg border"
+                    />
+                    <p className="text-sm text-gray-600 dark:text-gray-300 mt-4">
+                    Floor plan showing layout and capacity for {space.capacity} attendees
+                    </p>
+                  </div>
                   </TabsContent>
 
                   <TabsContent value="contact" className="p-6">
-                    <div className="space-y-4">
+                  <div className="space-y-4">
+                    <div>
+                    <h4 className="font-semibold mb-2" style={{ color: "#005687" }}>
+                      Venue Manager
+                    </h4>
+                    <p className="text-lg">{space.contact.manager}</p>
+                    </div>
+                    <Separator />
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="flex items-center gap-3">
+                      <Phone className="h-5 w-5" style={{ color: "#005687" }} />
                       <div>
-                        <h4 className="font-semibold mb-2 text-purple-600">Venue Manager</h4>
-                        <p className="text-lg">{space.contact.manager}</p>
-                      </div>
-                      <Separator />
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div className="flex items-center gap-3">
-                          <Phone className="h-5 w-5 text-purple-600" />
-                          <div>
-                            <p className="font-medium">Phone</p>
-                            <p className="text-sm text-gray-600 dark:text-gray-300">{space.contact.phone}</p>
-                          </div>
-                        </div>
-                        <div className="flex items-center gap-3">
-                          <Mail className="h-5 w-5 text-purple-600" />
-                          <div>
-                            <p className="font-medium">Email</p>
-                            <p className="text-sm text-gray-600 dark:text-gray-300">{space.contact.email}</p>
-                          </div>
-                        </div>
-                      </div>
-                      <Separator />
-                      <div className="flex items-start gap-3">
-                        <MapPin className="h-5 w-5 text-purple-600 mt-1" />
-                        <div>
-                          <p className="font-medium">Address</p>
-                          <p className="text-sm text-gray-600 dark:text-gray-300">{space.address}</p>
-                        </div>
+                      <p className="font-medium">Phone</p>
+                      <p className="text-sm text-gray-600 dark:text-gray-300">{space.contact.phone}</p>
                       </div>
                     </div>
+                    <div className="flex items-center gap-3">
+                      <Mail className="h-5 w-5" style={{ color: "#005687" }} />
+                      <div>
+                      <p className="font-medium">Email</p>
+                      <p className="text-sm text-gray-600 dark:text-gray-300">{space.contact.email}</p>
+                      </div>
+                    </div>
+                    </div>
+                    <Separator />
+                    <div className="flex items-start gap-3">
+                    <MapPin className="h-5 w-5 mt-1" style={{ color: "#005687" }} />
+                    <div>
+                      <p className="font-medium">Address</p>
+                      <p className="text-sm text-gray-600 dark:text-gray-300">{space.address}</p>
+                    </div>
+                    </div>
+                  </div>
                   </TabsContent>
                 </Tabs>
-              </CardContent>
+                </CardContent>
             </Card>
           </div>
 
@@ -242,29 +247,29 @@ export function SpaceDetail({ space }: SpaceDetailProps) {
               <CardHeader>
                 <CardTitle>Quick Info</CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
+                <CardContent className="space-y-4">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <Users className="h-4 w-4 text-purple-600" />
-                    <span className="text-sm">Capacity</span>
+                  <Users className="h-4 w-4" style={{ color: "#005687" }} />
+                  <span className="text-sm">Capacity</span>
                   </div>
                   <span className="font-semibold">{space.capacity} people</span>
                 </div>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <DollarSign className="h-4 w-4 text-purple-600" />
-                    <span className="text-sm">Daily Rate</span>
+                  <DollarSign className="h-4 w-4" style={{ color: "#005687" }} />
+                  <span className="text-sm">Daily Rate</span>
                   </div>
                   <span className="font-semibold">{space.price}</span>
                 </div>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <MapPin className="h-4 w-4 text-purple-600" />
-                    <span className="text-sm">Location</span>
+                  <MapPin className="h-4 w-4" style={{ color: "#005687" }} />
+                  <span className="text-sm">Location</span>
                   </div>
                   <span className="font-semibold text-right text-sm">{space.location}</span>
                 </div>
-              </CardContent>
+                </CardContent>
             </Card>
 
             {/* Key Features */}
@@ -285,14 +290,15 @@ export function SpaceDetail({ space }: SpaceDetailProps) {
 
             {/* Action Buttons */}
             <div className="space-y-3">
-              <Button
-                className="w-full bg-purple-600 hover:bg-purple-700 text-white"
+                <Button
+                className="w-full text-white"
+                style={{ backgroundColor: "#005687" }}
                 size="lg"
                 onClick={() => setIsEnquiryOpen(true)}
-              >
+                >
                 <Calendar className="h-4 w-4 mr-2" />
                 Make Enquiry
-              </Button>
+                </Button>
               <Button variant="outline" className="w-full" size="lg">
                 <Phone className="h-4 w-4 mr-2" />
                 Call {space.contact.phone}
@@ -303,12 +309,12 @@ export function SpaceDetail({ space }: SpaceDetailProps) {
             <Card className="bg-purple-50 dark:bg-purple-900/20 border-purple-200 dark:border-purple-800">
               <CardContent className="p-4">
                 <div className="flex items-start gap-3">
-                  <Clock className="h-5 w-5 text-purple-600 mt-0.5" />
+                  <Clock className="h-5 w-5" style={{ color: "#005687" }} />
                   <div>
-                    <p className="font-semibold text-purple-900 dark:text-purple-100">Quick Response</p>
-                    <p className="text-sm text-purple-700 dark:text-purple-200">
-                      We typically respond to enquiries within 2 hours during business hours.
-                    </p>
+                  <p className="font-semibold" style={{ color: "#005687" }}>Quick Response</p>
+                  <p className="text-sm" style={{ color: "#3381a3" }}>
+                    We typically respond to enquiries within 2 hours during business hours.
+                  </p>
                   </div>
                 </div>
               </CardContent>

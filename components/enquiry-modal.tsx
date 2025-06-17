@@ -434,7 +434,7 @@ export function EnquiryModal({ space, isOpen, onClose }: EnquiryModalProps) {
               <Button type="button" variant="outline" onClick={handleClose} className="flex-1" disabled={isSubmitting}>
                 Cancel
               </Button>
-              <Button type="submit" disabled={isSubmitting} className="flex-1 bg-purple-600 hover:bg-purple-700">
+              <Button type="submit" disabled={isSubmitting} className="flex-1 bg-[#005687] hover:bg-[#00405a]">
                 {isSubmitting ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
