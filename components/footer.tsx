@@ -7,7 +7,7 @@ export function Footer() {
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="space-y-4">
-            <img src="/logo.svg" alt="Roadshow Spaces Logo" className="h-10 w-auto" />
+            <img src="/logo.svg" alt="Roadshow Spaces Logo" className="h-15 w-auto" />
 
             <div className="flex gap-4 mt-2">
               <a href="https://www.facebook.com/AsdorSingapore" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="hover:text-blue-400 transition-colors">
@@ -20,7 +20,7 @@ export function Footer() {
                 <FaLinkedinIn size={22} />
               </a>
             </div>
-            <p className="text-gray-300">
+            <p className="text-gray-300 text-xl">
               Premium touring venues for exceptional events. Making your roadshow unforgettable.
             </p>
           </div>
@@ -29,16 +29,16 @@ export function Footer() {
             <h4 className="font-semibold">Head Office</h4>
             <div className="space-y-2 text-gray-300">
               <div className="flex items-center gap-2">
-                <Phone className="h-4 w-4" />
-                <span>+65 6844 1110</span>
+                <Phone className="h-6 w-6" />
+                <span className="text-xl">+65 6844 1110</span>
               </div>
               <div className="flex items-center gap-2">
-                <Mail className="h-4 w-4" />
-                <span>sales@asdor.com.sg</span>
+                <Mail className="h-6 w-6" />
+                <span className="text-xl">sales@asdor.com.sg</span>
               </div>
               <div className="flex items-center gap-2">
-                <MapPin className="h-4 w-4" />
-                <span>03 Ang Mo Kio Street 62 #01-66 Link@AMK Singapore 569139</span>
+                <MapPin className="h-6 w-6" />
+                <span className="text-xl">03 Ang Mo Kio Street 62 #01-66 Link@AMK Singapore 569139</span>
               </div>
             </div>
           </div>
