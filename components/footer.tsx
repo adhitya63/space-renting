@@ -1,4 +1,5 @@
 import { MapPin, Phone, Mail, Clock } from "lucide-react"
+import { FaFacebookF, FaInstagram, FaLinkedinIn, FaTwitter } from "react-icons/fa"
 
 export function Footer() {
   return (
@@ -7,6 +8,21 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="space-y-4">
             <img src="/logo.svg" alt="Roadshow Spaces Logo" className="h-10 w-auto" />
+
+            <div className="flex gap-4 mt-2">
+              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="hover:text-blue-400 transition-colors">
+                <FaFacebookF size={22} />
+              </a>
+              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" aria-label="Twitter" className="hover:text-blue-300 transition-colors">
+                <FaTwitter size={22} />
+              </a>
+              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="hover:text-pink-400 transition-colors">
+                <FaInstagram size={22} />
+              </a>
+              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="hover:text-blue-600 transition-colors">
+                <FaLinkedinIn size={22} />
+              </a>
+            </div>
             <p className="text-gray-300">
               Premium touring venues for exceptional events. Making your roadshow unforgettable.
             </p>
@@ -31,27 +47,21 @@ export function Footer() {
           </div>
 
           <div className="space-y-4">
-            <h4 className="font-semibold">Quick Links</h4>
             <div className="space-y-2 text-gray-300">
               <div>
-                <a href="#" className="hover:text-white transition-colors">
-                  About Us
-                </a>
+                <img src="/footer5.svg" alt="Roadshow Spaces Logo" className="h-15 w-auto" />
               </div>
               <div>
-                <a href="#" className="hover:text-white transition-colors">
-                  Our Spaces
-                </a>
+                <img src="/footer2.svg" alt="Roadshow Spaces Logo" className="h-15 w-auto" />
+
               </div>
               <div>
-                <a href="#" className="hover:text-white transition-colors">
-                  Services
-                </a>
+                <img src="/footer3.svg" alt="Roadshow Spaces Logo" className="h-15 w-auto" />
+
               </div>
               <div>
-                <a href="#" className="hover:text-white transition-colors">
-                  Contact
-                </a>
+                <img src="/footer4.svg" alt="Roadshow Spaces Logo" className="h-15 w-auto" />
+
               </div>
             </div>
           </div>
