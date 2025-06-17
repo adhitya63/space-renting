@@ -10,16 +10,13 @@ export function Footer() {
             <img src="/logo.svg" alt="Roadshow Spaces Logo" className="h-10 w-auto" />
 
             <div className="flex gap-4 mt-2">
-              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="hover:text-blue-400 transition-colors">
+              <a href="https://www.facebook.com/AsdorSingapore" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="hover:text-blue-400 transition-colors">
                 <FaFacebookF size={22} />
               </a>
-              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" aria-label="Twitter" className="hover:text-blue-300 transition-colors">
-                <FaTwitter size={22} />
-              </a>
-              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="hover:text-pink-400 transition-colors">
+              <a href="https://www.facebook.com/AsdorSingapore" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="hover:text-pink-400 transition-colors">
                 <FaInstagram size={22} />
               </a>
-              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="hover:text-blue-600 transition-colors">
+              <a href="https://www.facebook.com/AsdorSingapore" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="hover:text-blue-600 transition-colors">
                 <FaLinkedinIn size={22} />
               </a>
             </div>
