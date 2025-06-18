@@ -526,8 +526,8 @@ export function SpacesList() {
               <Card key={space.id} className="overflow-hidden hover:shadow-lg transition-shadow">
                 <div className="relative">
                   <img src={space.image || "/placeholder.svg"} alt={space.name} className="w-full h-48 object-cover" />
-                  <Badge className="absolute top-3 right-3" style={{ backgroundColor: "#005687" }}>
-                    {space.price}</Badge>
+                  {/* <Badge className="absolute top-3 right-3" style={{ backgroundColor: "#005687" }}>
+                    {space.price}</Badge> */}
                 </div>
 
                 <CardHeader>
