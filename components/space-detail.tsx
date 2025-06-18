@@ -152,10 +152,10 @@ export function SpaceDetail({ space }: SpaceDetailProps) {
             {/* Detailed Information Tabs */}
             <Card>
                 <CardContent className="p-0">
-                <Tabs defaultValue="amenities" className="w-full">
+                <Tabs defaultValue="policies" className="w-full">
                   <TabsList className="grid w-full grid-cols-4">
-                  <TabsTrigger value="amenities">Amenities</TabsTrigger>
                   <TabsTrigger value="policies">Policies</TabsTrigger>
+                  <TabsTrigger value="amenities">Amenities</TabsTrigger>
                   <TabsTrigger value="floorplan">Floor Plan</TabsTrigger>
                   <TabsTrigger value="contact">Contact</TabsTrigger>
                   </TabsList>
