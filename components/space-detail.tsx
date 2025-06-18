@@ -93,10 +93,10 @@ export function SpaceDetail({ space }: SpaceDetailProps) {
                 {space.location}
               </p>
             </div>
-            <div className="text-right">
+            {/* <div className="text-right">
               <div className="text-2xl font-bold" style={{ color: "#005687" }}>{space.price}</div>
               <div className="text-sm text-gray-600 dark:text-gray-300">per week</div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
@@ -262,13 +262,13 @@ export function SpaceDetail({ space }: SpaceDetailProps) {
                   </div>
                   <span className="font-semibold">{space.staff_capacity_min} - {space.staff_capacity_max} people</span>
                 </div>
-                <div className="flex items-center justify-between">
+                {/* <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                   <DollarSign className="h-4 w-4" style={{ color: "#005687" }} />
                   <span className="text-sm">Rate</span>
                   </div>
                   <span className="font-semibold">{space.price}</span>
-                </div>
+                </div> */}
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                   <MapPin className="h-4 w-4" style={{ color: "#005687" }} />
