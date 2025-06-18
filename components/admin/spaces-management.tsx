@@ -27,6 +27,7 @@ import {
   ImageIcon,
 } from "lucide-react"
 import { ImageUpload } from "@/components/admin/image-upload"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select"
 
 interface Space {
   id: string
@@ -64,6 +65,9 @@ export function SpacesManagement() {
   const [activeTab, setActiveTab] = useState("basic")
   const [isImageDialogOpen, setIsImageDialogOpen] = useState(false)
   const [currentImages, setCurrentImages] = useState<string[]>([])
+  const [page, setPage] = useState(1)
+  const [pageSize, setPageSize] = useState(9) // 9 per page for 3-column grid
+  const [total, setTotal] = useState(0)
 
   const [formData, setFormData] = useState({
     name: "",
@@ -89,17 +93,13 @@ export function SpacesManagement() {
   })
 
   useEffect(() => {
-    fetchSpaces()
+    fetchSpaces(page, pageSize)
     console.log("SpacesManagement component mounted")
-  }, [])
+  }, [page, pageSize])
 
-  useEffect(() => {
-    console.log("Spaces updated:", spaces)
-  }, [spaces])
-
-  const fetchSpaces = async () => {
+  const fetchSpaces = async (pageNum = page, size = pageSize) => {
     try {
-      const response = await fetch("/api/spaces?include_inactive=true")
+      const response = await fetch(`/api/spaces?include_inactive=true&page=${pageNum}&pageSize=${size}`)
       const data = await response.json()
       console.log("Fetched spaces:", data)
       if (!response.ok) {
@@ -107,6 +107,7 @@ export function SpacesManagement() {
       }
 
       setSpaces(data.spaces)
+      setTotal(data.total || 0)
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to load spaces")
     } finally {
@@ -413,6 +414,38 @@ export function SpacesManagement() {
           </Card>
         ))}
       </div>
+
+      <div className="my-8">
+          <Select value={String(pageSize)} onValueChange={val => { setPageSize(Number(val)); setPage(1); }}>
+            <SelectTrigger className="w-30">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="6">6 / page</SelectItem>
+              <SelectItem value="9">9 / page</SelectItem>
+              <SelectItem value="12">12 / page</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+        <div className="flex justify-center items-center gap-4 mt-8">
+          <Button
+            variant="outline"
+            disabled={page === 1}
+            onClick={() => setPage(page - 1)}
+          >
+            Previous
+          </Button>
+          <span>
+            Page {page} of {Math.ceil(total / pageSize) || 1}
+          </span>
+          <Button
+            variant="outline"
+            disabled={page * pageSize >= total}
+            onClick={() => setPage(page + 1)}
+          >
+            Next
+          </Button>
+        </div>
 
       {spaces.length === 0 && (
         <Card>
