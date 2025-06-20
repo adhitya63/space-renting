@@ -153,9 +153,10 @@ export function SpaceDetail({ space }: SpaceDetailProps) {
             <Card>
                 <CardContent className="p-0">
                 <Tabs defaultValue="policies" className="w-full">
-                  <TabsList className="grid w-full grid-cols-4">
+                  <TabsList className="grid w-full grid-cols-5">
                   <TabsTrigger value="policies">Policies</TabsTrigger>
                   <TabsTrigger value="amenities">Amenities</TabsTrigger>
+                  <TabsTrigger value="availability">Availability</TabsTrigger>
                   <TabsTrigger value="floorplan">Floor Plan</TabsTrigger>
                   <TabsTrigger value="contact">Contact</TabsTrigger>
                   </TabsList>
@@ -192,6 +193,61 @@ export function SpaceDetail({ space }: SpaceDetailProps) {
                     </div>
                     ))}
                   </div>
+                  </TabsContent>
+
+                  <TabsContent value="availability" className="p-6">
+                    <div className="space-y-6">
+                      <div>
+                        <h4 className="font-semibold mb-4" style={{ color: "#005687" }}>
+                          Available Dates
+                        </h4>
+                        {space.date_availability.length > 0 ? (
+                          <div className="space-y-4">
+                            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+                              {space.date_availability.map((date) => (
+                                <div
+                                  key={date}
+                                  className="p-3 bg-gray-50 dark:bg-gray-700 rounded-lg border-2 border-transparent hover:border-blue-200 dark:hover:border-blue-800 transition-colors"
+                                >
+                                  <div className="flex items-center gap-2">
+                                    <Calendar className="h-4 w-4 text-green-600" />
+                                    <span className="text-sm font-medium">{date}</span>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                            <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg">
+                              <h5 className="font-medium text-blue-900 dark:text-blue-100 mb-2">
+                                Booking Information
+                              </h5>
+                              <ul className="text-sm text-blue-800 dark:text-blue-200 space-y-1">
+                                <li>• {space.date_availability.length} dates currently available</li>
+                                <li>• Advance booking recommended for preferred dates</li>
+                                <li>• Contact us to check for additional availability</li>
+                                <li>• Flexible scheduling may be available upon request</li>
+                              </ul>
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="text-center py-8">
+                            <Calendar className="h-12 w-12 mx-auto text-gray-400 mb-4" />
+                            <h5 className="font-medium text-lg mb-2">Dates Available Upon Request</h5>
+                            <p className="text-gray-600 dark:text-gray-400 mb-4">
+                              We'll work with you to find suitable dates for your event
+                            </p>
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => setIsEnquiryOpen(true)}
+                              className="border-blue-300 text-blue-700 hover:bg-blue-50"
+                            >
+                              <Calendar className="h-4 w-4 mr-2" />
+                              Check Availability
+                            </Button>
+                          </div>
+                        )}
+                      </div>
+                    </div>
                   </TabsContent>
 
                   <TabsContent value="floorplan" className="p-6">
@@ -277,6 +333,41 @@ export function SpaceDetail({ space }: SpaceDetailProps) {
                   <span className="font-semibold text-right text-sm">{space.location}</span>
                 </div>
                 </CardContent>
+            </Card>
+
+            {/* Date Availability */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Calendar className="h-4 w-4" style={{ color: "#005687" }} />
+                  Date Availability
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                {space.date_availability.length > 0 ? (
+                  <div className="space-y-3">
+                    <div className="flex flex-wrap gap-2">
+                      {space.date_availability.map((date) => (
+                        <Badge key={date} variant="secondary" className="text-xs">
+                          {date}
+                        </Badge>
+                      ))}
+                    </div>
+                    <p className="text-xs text-gray-600 dark:text-gray-400">
+                      {space.date_availability.length} available {space.date_availability.length === 1 ? 'date' : 'dates'}
+                    </p>
+                  </div>
+                ) : (
+                  <div className="text-center py-4">
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                      Dates to be suggested upon enquiry
+                    </p>
+                    <p className="text-xs text-gray-500 dark:text-gray-500 mt-1">
+                      Contact us to discuss available dates
+                    </p>
+                  </div>
+                )}
+              </CardContent>
             </Card>
 
             {/* Key Features */}
